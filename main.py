@@ -186,9 +186,6 @@ class Player(pygame.sprite.Sprite):
                     enemies.remove(enemy)
                     level_2()
 
-        if player.rect.x < 305 and player.rect.y < 10:
-            level_3()
-
     def update(self):
         # Check if the player's position is within the boundaries of the screen
         if self.rect.left < 1:
@@ -349,6 +346,10 @@ def level_3():
 
 # Main game loop
 while running:
+    if ket:
+        if player.rect.x < 305 and player.rect.y < 10:
+            level_3()
+
     prev_pos = (player.rect.x, player.rect.y)
     # Handle events
     keys = pygame.key.get_pressed()
