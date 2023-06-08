@@ -12,7 +12,6 @@ player_image = pygame.image.load("media/images/knight/knight iso char_idle_0.png
 global pause, ket
 ket = False
 pause = False
-
 animation_frames_idle = [
     pygame.image.load("media/images/knight/knight iso char_idle_0.png"),
     pygame.image.load("media/images/knight/knight iso_char_idle_1.png"),
@@ -176,13 +175,14 @@ class Player(pygame.sprite.Sprite):
         global pause
         # Check for collisions between the player and the enemies
         collided_enemies = pygame.sprite.spritecollide(self, enemies, False)
-
+        lvl = False
         # Handle the collisions
         for enemy in collided_enemies:
             if self.attacking:
                 enemy.health -= self.damage
                 self.attacking = False
                 if enemy.health <= 0:
+                    lvl = True
                     enemies.remove(enemy)
                     level_2()
 
@@ -336,11 +336,24 @@ def level_2():
     player.rect.y = screen_height - player.rect.height - 50
 
 
+def level_3():
+    global bg, ket, enemy
+    ket = True
+    bg = pygame.image.load("media/images/Map/map_lv_3.png")
+    player.rect.x = 300
+    player.rect.y = screen_height - player.rect.height - 50
+
+
 # Main game loop
 while running:
+    if ket:
+        if player.rect.x < 305 and player.rect.y < 10:
+            level_3()
+
     prev_pos = (player.rect.x, player.rect.y)
     # Handle events
     keys = pygame.key.get_pressed()
+
     if keys[pygame.K_UP]:
         player.rect.y -= player.speed
         player.moving_up = True
@@ -434,4 +447,4 @@ while running:
     enemies.draw(screen)
     players.draw(screen)
 
-    clock.tick(14)
+    clock.tick(15)
